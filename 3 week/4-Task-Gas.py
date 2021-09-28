@@ -13,18 +13,44 @@ while zabor < 4:
 turtle.ht()
 
 number_of_particles = 5
-steps_of_time_number = 100
+steps_of_time_number = 300
+spped = 5 # скорость частицы
 
+pool = [turtle.Turtle(shape = 'circle') for i in range(number_of_particles)]
 
-pool = [turtle.Turtle(shape='circle') for i in range(number_of_particles)]
+# генерируем координаты частиц
+Xc = []
+Yc = []
+A  = []
 
 for unit in pool:
     unit.penup()
     unit.speed(50)
-    unit.goto(randint(-200, 200), randint(-200, 200))
+    x = randint(-200, 200)
+    y = randint(-200, 200)
+    Xc.append(x)
+    Yc.append(y)
+    unit.goto(x,y)
+    alpha = randint(-180 , 180)
+    unit.right(alpha)
+    A.append(alpha)
 
+print(Xc)
+print(Yc)
+print(A)
 
 for i in range(steps_of_time_number):
     for unit in pool:
-        unit.speed(50)
-        unit.goto(randint(-200, 200), randint(-200, 200))
+        if abs(unit.xcor()) < 200:
+            if abs(unit.ycor()) < 200:
+                unit.speed(0)
+                unit.forward(4)
+            else:
+                unit.right(90 - 2*A[pool.index(unit)]) #реализовать поворот
+                unit.speed(0)
+                unit.forward(4)
+        else:
+            unit.right(180 -2*A[pool.index(unit)]) #реализовать поворот
+            unit.speed()
+            unit.forward(4)
+            # реализовать поворот
