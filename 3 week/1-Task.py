@@ -14,4 +14,3 @@ while i < 300:
     turtle.speed(0)
     turtle.goto(a, b)
     i+=1
-    
