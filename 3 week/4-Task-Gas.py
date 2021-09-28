@@ -12,11 +12,11 @@ while zabor < 4:
     zabor += 1
 turtle.ht()
 
-number_of_particles = 1
+number_of_particles = 4
 steps_of_time_number = 500
-spped = 5 # скорость частицы
+V = 20 # скорость частицы
 
-pool = [turtle.Turtle(shape = 'circle') for i in range(number_of_particles)]
+pool = [turtle.Turtle(shape = 'turtle') for i in range(number_of_particles)]
 
 # генерируем координаты частиц
 Xc = [] # x koordinata
@@ -46,15 +46,15 @@ for i in range(steps_of_time_number):
         if abs(unit.xcor()) <= 200:
             if abs(unit.ycor()) <= 200:
                 unit.speed(0)
-                unit.forward(3)
+                unit.forward(V)
             else:
-                unit.right(360 - 2*A[pool.index(unit)]) # удар об y
-                #A[pool.index(unit)] = 180 - 2*A[pool.index(unit)]
+                # удар об вертик. стенки
+                unit.setheading(-unit.heading())
                 unit.speed(0)
-                unit.forward(3)
+                unit.forward(V)
         else:
-            unit.right(180 - 2*A[pool.index(unit)]) # удар об x
+            unit.setheading(180 - unit.heading()) # удар об горизонт. стенки
             #A[pool.index(unit)] = 360 -2*A[pool.index(unit)]
-            unit.speed()
-            unit.forward(3)
+            unit.speed(0)
+            unit.forward(V)
             # реализовать поворот
