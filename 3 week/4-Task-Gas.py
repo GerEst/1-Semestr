@@ -13,10 +13,10 @@ while zabor < 4:
     zabor += 1
 turtle.ht()
 
- 
+
 number_of_particles = 4
 steps_of_time_number = 500
-V = 20 # скорость частицы
+V = 10 # скорость частицы
 
 pool = [turtle.Turtle(shape = 'turtle') for i in range(number_of_particles)]
 
@@ -55,6 +55,6 @@ for i in range(steps_of_time_number):
                 unit.speed(0)
                 unit.forward(V)
         else:
-            unit.setheading(180 - unit.heading()) 
+            unit.setheading(180 - unit.heading())
             unit.speed(0)
             unit.forward(V)
