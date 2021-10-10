@@ -1,4 +1,5 @@
 import pygame
+from os import system
 from random import randint
 from pygame.draw import *
 pygame.init()
@@ -35,7 +36,9 @@ circle(screen, (255, 221, 85), (390, 10), 70) # солнце
 ellipse(screen, white, rect1)
 ellipse(screen, white, rect2)
 ellipse(screen, white, rect3)
+#sheja
 rect(screen, white, (272, 374, 50, 70))
+#rog
 polygon(screen, (255, 255, 0), [(300,360), (310,361),
                                (315,362), (310,300)])
 # хвост, грива
@@ -72,8 +75,11 @@ finished = False
 while not finished:
     clock.tick(FPS)
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            finished = True
+            system("cls")
+            print(f"x = {pygame.mouse.get_pos()[0]}")
+            print(f"y = {pygame.mouse.get_pos()[1]}")
+            if event.type == pygame.QUIT:
+                finished = True
 
 
 pygame.quit()
