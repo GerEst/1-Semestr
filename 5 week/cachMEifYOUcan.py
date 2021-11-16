@@ -8,7 +8,8 @@ class Game():
         self.screen = screen
         self.name = name
         self.run = True
-        self.loop()
+        self.balls = []
+        self.start()
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -19,22 +20,29 @@ class Game():
                 print('x = ', event.pos[0])
                 print('y = ', event.pos[1])
 
-    def render(self):
+    def main_render(self):
         self.screen.fill(BLACK)
-        ##
+        for i in self.balls:
+            i.render(self.screen)
 
-    def loop(self):
+    def start(self):
+
+        for i in range(0, 10):
+            self.balls.append(Ball())
+        print(self.balls)
 
         clock = pygame.time.Clock()
 
         while self.run:
             clock.tick(FPS)
             self.handle_events()
-            self.render()
+            for i in self.balls:
+                i.move()
+            self.main_render()
             pygame.display.update()
 
 
 
 
-screen1 = pygame.display.set_mode((1200, 900))
+screen1 = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 game1 = Game(screen1, "geroin")
