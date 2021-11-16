@@ -16,9 +16,9 @@ class Game():
             if event.type == pygame.QUIT:
                 self.run = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                print('Click!')
-                print('x = ', event.pos[0])
-                print('y = ', event.pos[1])
+                for j in self.balls:
+                    if abs(event.pos[0] - j.x) < j.r and abs(event.pos[1] - j.y) < j.r:
+                        j.remove()
 
     def main_render(self):
         self.screen.fill(BLACK)
@@ -27,8 +27,8 @@ class Game():
 
     def start(self):
 
-        for i in range(0, 10):
-            self.balls.append(Ball())
+        for i in range(0, 5):
+            self.balls.append(Ball(self))
         print(self.balls)
 
         clock = pygame.time.Clock()
@@ -36,6 +36,8 @@ class Game():
         while self.run:
             clock.tick(FPS)
             self.handle_events()
+            if len(self.balls) == 0:
+                self.run = False
             for i in self.balls:
                 i.move()
             self.main_render()

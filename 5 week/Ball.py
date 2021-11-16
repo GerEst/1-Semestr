@@ -5,7 +5,10 @@ from random import randint
 
 
 class Ball:
-    def __init__(self):
+    def __init__(self, game):
+
+        self.game = game
+
         self.x = randint(100,700)
         self.y = randint(100,500)
         self.r = randint(30,50)
@@ -38,3 +41,6 @@ class Ball:
         if self.y - self.r < 0:
             self.Vx = randint(-10, -10)
             self.Vy = randint(0, 10)
+            
+    def remove(self):
+        self.game.balls.remove(self)
