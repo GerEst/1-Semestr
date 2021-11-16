@@ -7,6 +7,7 @@ class Game():
     def __init__(self, screen, name):
         self.screen = screen
         self.name = name
+        self.counter = 0
         self.run = True
         self.balls = []
         self.start()
@@ -18,6 +19,7 @@ class Game():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 for j in self.balls:
                     if abs(event.pos[0] - j.x) < j.r and abs(event.pos[1] - j.y) < j.r:
+                        self.counter += 1
                         j.remove()
 
     def main_render(self):
@@ -27,7 +29,7 @@ class Game():
 
     def start(self):
 
-        for i in range(0, 5):
+        for i in range(0, randint(0, 15)):
             self.balls.append(Ball(self))
         print(self.balls)
 
@@ -38,6 +40,7 @@ class Game():
             self.handle_events()
             if len(self.balls) == 0:
                 self.run = False
+                print(f"вы набрали {self.counter} очков")
             for i in self.balls:
                 i.move()
             self.main_render()
