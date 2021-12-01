@@ -1,10 +1,14 @@
 import math
 from random import choice
+from random import randint
+
 
 import pygame
 
 
 FPS = 30
+
+g = 0.8
 
 RED = 0xFF0000
 BLUE = 0x0000FF
@@ -50,9 +54,27 @@ class Ball:
         self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
         и стен по краям окна (размер окна 800х600).
         """
-        # FIXME
+        # FIXME - DONE
+
+        if self.x + self.r > WIDTH:
+            self.x -= abs(self.vx)
+            self.vx = - 0.8*self.vx
+        if self.x - self.r < 0:
+            self.x += abs(self.vx)
+            self.vx = -0.8*self.vx
+        if self.y - self.r < 0:
+            self.vx *= 0.8
+            self.y -= abs(self.vy)
+            self.vy = -0.8*self.vy
+        if self.y + self.r > HEIGHT:
+            self.vx *= 0.8
+            self.y -= abs(self.vy)
+            self.vy = -0.8*self.vy
+
         self.x += self.vx
+        self.vy -= g
         self.y -= self.vy
+
 
     def draw(self):
         pygame.draw.circle(
@@ -71,16 +93,30 @@ class Ball:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
         # FIXME
-            #return False
+        if ((obj.x - self.x)**2 + (obj.y - self.y)**2)**(1/2) <= (self.r + obj.r):
+            return True
+        else:
+            return False
+
 
 
 class Gun:
     def __init__(self, screen):
+        """
+        screen - экран
+        f2_power - мощность выстрела
+        f2_on - 1 если пушка заряжена, 0 - если нет
+        an - угол пушки
+        color - цвет пушки
+        x, y -  координаты пушки
+        """
         self.screen = screen
         self.f2_power = 10
         self.f2_on = 0
         self.an = 1
         self.color = GREY
+        self.x = 40
+        self.y = 450
 
     def fire2_start(self, event):
         self.f2_on = 1
@@ -112,6 +148,16 @@ class Gun:
             self.color = GREY
 
     def draw(self):
+        width = 10
+        coords = [
+            (self.x, self.y),
+            (self.x+(self.f2_power+20)*math.cos(self.an),
+             self.y+(self.f2_power+20)*math.sin(self.an)),
+            (self.x+(self.f2_power+20)*math.cos(self.an)+width*math.sin(self.an),
+             self.y+(self.f2_power+20)*math.sin(self.an)-width*math.cos(self.an)),
+            (self.x+width*math.sin(self.an), self.y-width*math.cos(self.an))
+        ]
+        pygame.draw.polygon(self.screen, self.color, (coords), width=0)
         # FIXIT don't know how to do it
 
     def power_up(self):
@@ -124,30 +170,78 @@ class Gun:
 
 
 class Target:
-    # self.points = 0
-    # self.live = 1
+    #self.points = 0
+    #self.live = 1
     # FIXME: don't work!!! How to call this functions when object is created?
-    # self.new_target()
+    #self.new_target()
+
+    def __init__(self):
+        """
+        x y
+        r
+        vx
+        vy
+        color
+        live
+        points
+        """
+        self.screen = screen
+        self.x = randint(600, 750)
+        self.y = randint(300, 550)
+        self.r = randint(30, 50)
+        self.vx = randint(-7, 7)
+        self.vy = randint(-7, 7)
+        self.color = RED
+        self.live = 1
+        self.points = 1
 
     def new_target(self):
         """ Инициализация новой цели. """
-        x = self.x = rnd(600, 780)
-        y = self.y = rnd(300, 550)
-        r = self.r = rnd(2, 50)
+        x = self.x = randint(600, 780)
+        y = self.y = randint(300, 550)
+        r = self.r = randint(2, 50)
         color = self.color = RED
 
-    def hit(self, points=1):
+    def hit(self, points):
         """Попадание шарика в цель."""
-        self.points += points
+        if ((obj.x - self.x)**2 + (obj.y - self.y)**2)**(1/2) <= (self.r+ obj.r):
+            balls.pop(balls.index(self))
+            self.points += points
 
     def draw(self):
-        ...
+        pygame.draw.circle(
+            self.screen,
+            self.color,
+            (self.x, self.y),
+            self.r
+        )
 
+    def move(self):
+        if self.x + self.r > WIDTH:
+            self.x -= abs(self.vx)
+            self.vx = - 0.8*self.vx
+        if self.x - self.r < 0:
+            self.x += abs(self.vx)
+            self.vx = -0.8*self.vx
+        if self.y - self.r < 0:
+            self.vx *= 0.8
+            self.y -= abs(self.vy)
+            self.vy = -0.8*self.vy
+        if self.y + self.r > HEIGHT:
+            self.vx *= 0.8
+            self.y -= abs(self.vy)
+            self.vy = -0.8*self.vy
+
+        self.x += self.vx
+        self.vy -= g
+        self.y -= self.vy
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 balls = []
+targets = []
+points = 0 # Счетчик игровых очков
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
@@ -177,7 +271,7 @@ while not finished:
         b.move()
         if b.hittest(target) and target.live:
             target.live = 0
-            target.hit()
+            target.hit(points)
             target.new_target()
     gun.power_up()
 
