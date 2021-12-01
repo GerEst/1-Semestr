@@ -189,8 +189,8 @@ class Target:
         self.x = randint(600, 750)
         self.y = randint(300, 550)
         self.r = randint(30, 50)
-        self.vx = randint(-7, 7)
-        self.vy = randint(-7, 7)
+        self.vx = randint(-15, 15)
+        self.vy = randint(-15, 15)
         self.color = RED
         self.live = 1
         self.points = 1
@@ -209,6 +209,7 @@ class Target:
             self.points += points
 
     def draw(self):
+        ''' отрисовка цели'''
         pygame.draw.circle(
             self.screen,
             self.color,
@@ -233,7 +234,6 @@ class Target:
             self.vy = -0.8*self.vy
 
         self.x += self.vx
-        self.vy -= g
         self.y -= self.vy
 
 pygame.init()
@@ -252,6 +252,7 @@ while not finished:
     screen.fill(WHITE)
     gun.draw()
     target.draw()
+    target.move()
     for b in balls:
         b.draw()
     pygame.display.update()
