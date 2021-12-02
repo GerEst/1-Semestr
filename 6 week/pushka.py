@@ -54,7 +54,6 @@ class Ball:
         self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
         и стен по краям окна (размер окна 800х600).
         """
-        # FIXME - DONE
 
         if self.x + self.r > WIDTH:
             self.x -= abs(self.vx)
@@ -77,6 +76,7 @@ class Ball:
 
 
     def draw(self):
+        ''' отрисовка патрона '''
         pygame.draw.circle(
             self.screen,
             self.color,
@@ -148,6 +148,7 @@ class Gun:
             self.color = GREY
 
     def draw(self):
+        ''' Отрисовка мощности пушки'''
         width = 10
         coords = [
             (self.x, self.y),
@@ -158,7 +159,6 @@ class Gun:
             (self.x+width*math.sin(self.an), self.y-width*math.cos(self.an))
         ]
         pygame.draw.polygon(self.screen, self.color, (coords), width=0)
-        # FIXIT don't know how to do it
 
     def power_up(self):
         if self.f2_on:
@@ -177,13 +177,12 @@ class Target:
 
     def __init__(self):
         """
-        x y
-        r
-        vx
-        vy
-        color
-        live
-        points
+        x y - координаты цели
+        r - радиус цели
+        vx, vy - скорость цели
+        color - цвет мишени
+        live - жизни цели
+        points - очки
         """
         self.screen = screen
         self.x = randint(600, 750)
@@ -193,7 +192,7 @@ class Target:
         self.vy = randint(-15, 15)
         self.color = RED
         self.live = 1
-        self.points = 1
+        self.points = 0
 
     def new_target(self):
         """ Инициализация новой цели. """
@@ -206,7 +205,8 @@ class Target:
         """Попадание шарика в цель."""
         if ((obj.x - self.x)**2 + (obj.y - self.y)**2)**(1/2) <= (self.r+ obj.r):
             balls.pop(balls.index(self))
-            self.points += points
+            self.points += 1
+
 
     def draw(self):
         ''' отрисовка цели'''
@@ -218,6 +218,7 @@ class Target:
         )
 
     def move(self):
+        ''' движение цели '''
         if self.x + self.r > WIDTH:
             self.x -= abs(self.vx)
             self.vx = - 0.8*self.vx
@@ -272,7 +273,7 @@ while not finished:
         b.move()
         if b.hittest(target) and target.live:
             target.live = 0
-            target.hit(points)
+            #target.hit()
             target.new_target()
     gun.power_up()
 
