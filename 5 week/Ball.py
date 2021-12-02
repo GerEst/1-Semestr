@@ -41,6 +41,6 @@ class Ball:
         if self.y - self.r < 0:
             self.Vx = randint(-10, -10)
             self.Vy = randint(0, 10)
-            
+
     def remove(self):
         self.game.balls.remove(self)
