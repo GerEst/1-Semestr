@@ -1,10 +1,18 @@
-import pygame
+from pygame import draw
 from Constantine import *
 from random import randint
 
 
 
 class Ball:
+    '''
+    Класс создаёт мишени - шары
+    x - x координата
+    y - y координата
+    r - радиус шара
+    Vx - x кмпонента скорости
+    Vy - y компонента скорости
+    '''
     def __init__(self, game):
 
         self.game = game
@@ -20,9 +28,11 @@ class Ball:
 
 
     def render(self, screen):
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
+        ''' Отрисовка шара '''
+        draw.circle(screen, self.color, (self.x, self.y), self.r)
 
     def move(self):
+        ''' Движение шара '''
         self.x += self.Vx
         self.y += self.Vy
 
@@ -43,4 +53,5 @@ class Ball:
             self.Vy = randint(0, 10)
 
     def remove(self):
+        '''  удаление шара '''
         self.game.balls.remove(self)
