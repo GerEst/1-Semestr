@@ -3,13 +3,15 @@ from Ball import *
 from Constantine import *
 from random import randint
 
-class Game():
-    '''
+
+class Game:
+    """
     Основной класс игры
     balls - список с шарами
     counter - счёт удалённых шаров
     self.start() - запускает игру при инициализации объекта класса
-    '''
+    """
+
     def __init__(self, screen, name):
         self.screen = screen
         self.name = name
@@ -19,11 +21,11 @@ class Game():
         self.start()
 
     def handle_events(self):
-        '''
+        """
         Метод класса Game
         Обработка событий
         Удаляет шар после клика в его области
-        '''
+        """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.run = False
@@ -34,21 +36,22 @@ class Game():
                         j.remove()
 
     def main_render(self):
-        '''
+        """
         Создание экрана и отрисовка каждого из шаров
-        '''
+        """
         self.screen.fill(BLACK)
         for i in self.balls:
             i.render(self.screen)
 
     def start(self):
-        '''
+        """
         создание шаров
         основной цикл программы
-        '''
-
-        for i in range(0, randint(0, 15)):
+        """
+        i = 0
+        while i < randint(0, 15):
             self.balls.append(Ball(self))
+            i += 1
 
         clock = pygame.time.Clock()
 
@@ -62,6 +65,7 @@ class Game():
                 i.move()
             self.main_render()
             pygame.display.update()
+
 
 screen1 = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 game1 = Game(screen1, "bbballs")

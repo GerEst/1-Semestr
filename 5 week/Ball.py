@@ -3,36 +3,31 @@ from Constantine import *
 from random import randint
 
 
-
 class Ball:
-    '''
+    """
     Класс создаёт мишени - шары
     x - x координата
     y - y координата
     r - радиус шара
     Vx - x кмпонента скорости
     Vy - y компонента скорости
-    '''
+    """
     def __init__(self, game):
 
         self.game = game
-
-        self.x = randint(100,700)
-        self.y = randint(100,500)
-        self.r = randint(30,50)
-
-        self.Vx = randint(-10,10)
-        self.Vy = randint(-10,10)
-
+        self.x = randint(100, 700)
+        self.y = randint(100, 500)
+        self.r = randint(30, 50)
+        self.Vx = randint(-10, 10)
+        self.Vy = randint(-10, 10)
         self.color = COLORS[randint(0, 5)]
 
-
     def render(self, screen):
-        ''' Отрисовка шара '''
+        """ Отрисовка шара """
         draw.circle(screen, self.color, (self.x, self.y), self.r)
 
     def move(self):
-        ''' Движение шара '''
+        """ Движение шара """
         self.x += self.Vx
         self.y += self.Vy
 
@@ -44,7 +39,6 @@ class Ball:
             self.Vx = randint(0, 10)
             self.Vy = randint(-10, 10)
 
-
         if self.y + self.r > SCREEN_HEIGHT:
             self.Vx = randint(-10, 10)
             self.Vy = randint(-10, 0)
@@ -53,5 +47,5 @@ class Ball:
             self.Vy = randint(0, 10)
 
     def remove(self):
-        '''  удаление шара '''
+        """  удаление шара """
         self.game.balls.remove(self)
