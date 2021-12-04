@@ -14,6 +14,7 @@ class Game:
 
     def __init__(self, screen, name):
         self.screen = screen
+        self.user_font = pygame.font.SysFont("Comic Sans MS", 30)
         self.name = name
         self.counter = 0
         self.run = True
@@ -42,6 +43,7 @@ class Game:
         self.screen.fill(BLACK)
         for i in self.balls:
             i.render(self.screen)
+        self.screen.blit(self.user_font.render(f'Score: {self.counter}', False, (255, 255, 255)), (10, 10))
 
     def start(self):
         """
@@ -49,7 +51,7 @@ class Game:
         основной цикл программы
         """
         i = 0
-        while i < randint(0, 15):
+        while i < randint(5, 15):
             self.balls.append(Ball(self))
             i += 1
 
@@ -67,5 +69,6 @@ class Game:
             pygame.display.update()
 
 
+pygame.init()
 screen1 = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 game1 = Game(screen1, "bbballs")
